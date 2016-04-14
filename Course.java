@@ -24,6 +24,14 @@ public class Course
 		super();
 	}
 	
+	public Course(String title, String meetDays, int pAbs, int creditHours)
+	{
+		this.title = title;
+		this.meetDays = meetDays;
+		this.pAbs = pAbs;
+		this.creditHours = creditHours;
+	}
+	
 	public Course(String title, String meetDays, int pAbs, int creditHours, String term, int year)
 	{
 		this.title = title;
@@ -98,6 +106,11 @@ public class Course
 	public int getAbs()
 	{
 		return abs;
+	}
+	
+	public void errSkip()
+	{
+		abs--;
 	}
 	
 	//lets you know your final grade for the course
