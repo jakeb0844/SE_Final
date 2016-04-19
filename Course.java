@@ -96,6 +96,11 @@ public class Course
 		return pAbs;
 	}
 	
+	public int getDaysSkipped()
+	{
+		return abs;
+	}
+	
 	//returns possible days skipped
 	public int daysLeft()
 	{   

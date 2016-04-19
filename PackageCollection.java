@@ -13,32 +13,27 @@ import java.util.ArrayList;
 public class PackageCollection<T> 
 	implements Serializable
 {
-	/**
-	 * 
-	 */
+	private static String[] packageTypes = {"notebook", "addressbook", "course", "semester"};
+	
 	private static final long serialVersionUID = 45;
 
 	private final static int DEFAULT_CAPACITY = 25;
 	
-	private int front;
 	private ArrayList<T> collection;
 	
 	public PackageCollection()
 	{
 		this(DEFAULT_CAPACITY);
-		front = 0;
 	}
 	
 	public PackageCollection(int initialCapacity)
 	{
-		front = 0;
 		collection = new ArrayList<T>(initialCapacity);
 	}
 	
 	public void addElement(T element) 
 	{
 		collection.add(element);
-		front++;
 	}
 	
 	public ArrayList<T> getCollection()
@@ -68,10 +63,18 @@ public class PackageCollection<T>
 			fileOut.close();
 			System.out.println("Everything Worked!");
 		}
-		catch(IOException i)
+		catch(IOException e)
 		{
+			for(int i = 0; i < packageTypes.length; i++)
+			{
+				String filename = packageTypes[i];
+				File file = new File("sers/" + filename + ".ser");
+				this.save(filename);
+			}
+			/*
 			System.out.println("Everything Broke");
 			i.printStackTrace();
+			*/
 		}
 	}
 
@@ -107,7 +110,7 @@ public class PackageCollection<T>
 	{
 		String result = "";
 		
-		for(int i = 0; i < front; i++)
+		for(int i = 0; i < collection.size(); i++)
 		{
 			result += collection.get(i);
 		}

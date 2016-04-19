@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Window.Type;
 
-public class CreateCourseWindow extends JFrame {
+public class CreateCourseWindow extends Window {
 
 	/**
 	 * 
@@ -129,7 +129,7 @@ public class CreateCourseWindow extends JFrame {
 				tmp.load("Courses");
 				tmp.addCourse(x);
 				
-				Window.printCourse();
+				Window.printCourse(semester);
 				contentPane.repaint();
 				
 				/*for(int i=0; i<Courses.courses.size(); i++){

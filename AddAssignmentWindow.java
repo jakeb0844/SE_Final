@@ -1,4 +1,5 @@
-package Courses;
+package tmp;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
-public class AddAssignmentWindow extends JFrame {
+public class AddAssignmentWindow extends Window {
 
 	private JPanel contentPane;
 	private JTextField aTitle;
@@ -105,7 +106,7 @@ public class AddAssignmentWindow extends JFrame {
 				
 					
 					//writes out the assignments... the method is in the window class
-					window.printAssignments();
+					Window.printAssignments(course);
 				
 			}
 		});
@@ -119,7 +120,7 @@ public class AddAssignmentWindow extends JFrame {
 		contentPane.add(btnCancel);
 		
 		//if an assignment is added but no courses then pops up a window to create a new course
-		if(Courses.courses.size() == 0){
+		if(course.getSize() == 0){
 			CreateCourseWindow z = new CreateCourseWindow();
 			z.show();
 		}

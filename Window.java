@@ -7,22 +7,35 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-
 public class Window extends JFrame {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
 	private static JPanel contentPane;  //creates a global content pane
 	private static JTextArea textArea;  //creates a global textArea
 	//private ArrayList<Course> c = new ArrayList<>();
+	
+	
+	//collections
+	Semester semester = new Semester();
+	Course course = new Course();
+	AddressBook addressbook = new AddressBook();
+	Notebook notebook = new Notebook();
 	 
 
 	/**
@@ -52,7 +65,6 @@ public class Window extends JFrame {
 					
 					tmp = new Assignment("Take Home Test", 3, 15, 2016);
 					DS.addAssignment(tmp);
-					
 					Window frame = new Window();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -67,13 +79,17 @@ public class Window extends JFrame {
 	 */
 	public Window() {
 		start();
+		semester.load("semester");
+		course.load("course");
+		notebook.load("notebook");
+		addressbook.load("addressbook");
 	}
 	
 	public void start(){
 		
 		//creates a Course label
 		setTitle("Course");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 555, 555);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -117,6 +133,7 @@ public class Window extends JFrame {
 		JButton btnAddCourse = new JButton("Add Course");
 		btnAddCourse.addActionListener(new ActionListener() {
 			//When pressed, a create course window pops up
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				CreateCourseWindow win = new CreateCourseWindow();
 				win.show();
@@ -130,6 +147,7 @@ public class Window extends JFrame {
 		JButton btnAddAssignment = new JButton("Add Assignment");
 		btnAddAssignment.addActionListener(new ActionListener() {
 			//when pressed, an add assignment window pops up
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				AddAssignmentWindow aaw = new AddAssignmentWindow();	
 					aaw.show();
@@ -143,7 +161,7 @@ public class Window extends JFrame {
 		
 		
 		//printCourse on content pane
-		printCourse();
+		printCourse(semester);
 		
 		/*for(int i = 0; i < Course.Course.size(); i++){
 			makeLabel(Course.Course.get(i), x, y, w, h);
@@ -151,7 +169,7 @@ public class Window extends JFrame {
 		}*/
 		
 		//prints assignments on textarea
-		printAssignments();
+		printAssignments(course);
 		
 		/*for(int i = 0; i < Course.Course.size(); i++){
 			if(Course.Course.get(i).a.size() > 0)
@@ -175,13 +193,13 @@ public class Window extends JFrame {
 				contentPane.add(lblNewLabel_2);
 				
 				//Prints the amount of days skipped
-				JLabel lblNewLabel_3 = new JLabel((String.valueOf(a.getAbs())));								//mod
+				JLabel lblNewLabel_3 = new JLabel(String.valueOf(a.getAbs()));
 				lblNewLabel_3.setFont(new Font("Verdana", Font.PLAIN, 12));
 				lblNewLabel_3.setBounds(x+300, y, 46, h);
 				contentPane.add(lblNewLabel_3);
 				
 				//prints the max amount of days a person can skip
-				JLabel lblNewLabel_4 = new JLabel(String.valueOf(a.getPabs()));								//mod
+				JLabel lblNewLabel_4 = new JLabel(String.valueOf(a.getPabs()));
 				lblNewLabel_4.setFont(new Font("Verdana", Font.PLAIN, 12));
 				lblNewLabel_4.setBounds(x+440, y, 46, h);
 				contentPane.add(lblNewLabel_4);
@@ -206,15 +224,15 @@ public class Window extends JFrame {
 				button_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						a.errSkip(); //subtracts a skip day		
-						lblNewLabel_3.setText(String.valueOf(a.getAbs()));										//mod
+						lblNewLabel_3.setText(String.valueOf(a.getDaysSkipped()));
 					}
 				});
 				contentPane.add(button_1);
 							
 	}
 	
-	/*
 	//method used to print Assignments on textArea
+	/*
 	public static void printAssignments(){
 		textArea.setText("");
 		for(int i = 0; i < Course.Course.size(); i++){
@@ -224,32 +242,41 @@ public class Window extends JFrame {
 	}
 	*/
 	
-	public static void printAssignments()
+	//Cory --- i think this is a quicker, more elegant way
+	public static void printAssignments(Course course)
 	{
-		Course temp = new Course();
-		ArrayList<Assignment> a = new ArrayList<Assignment>();
-		temp.load("Assignments");
-		a = temp.getCollection();
 		textArea.setText("");
-		textArea.append(a.toString());
+		for(int i = 0; i < course.getSize(); i++)
+		{
+			textArea.append(course.getElement(i).toString());
+		}
 	}
 	
+	/*
 	//prints Course on the content pain
 	public static void printCourse(){
 		int x = 10;
 		int y = 40;
 		int w = 200;
 		int h = 14;
-		
-		Semester tmp = new Semester();
-		ArrayList<Course> a = new ArrayList<Course>();
-		
-		tmp.load("Assignments");
-		a = tmp.getCollection();
-		for(int i = 0; i < a.size(); i++){
-			Course loc = a.get(i);
-			makeLabel(loc, x, y, w, h);
+		for(int i = 0; i < Course.Course.size(); i++){
+			makeLabel(Course.Course.get(i), x, y, w, h);
 			y = y + 25;
 		}
 	}
+	*/
+	
+	public static void printCourse(Semester semester)
+	{
+		int x = 10;
+		int y = 40;
+		int w = 200;
+		int h = 14;
+		for(int i = 0; i < semester.getSize(); i++)
+		{
+			makeLabel((Course)semester.getElement(i), x, y, w, h);
+		}
+	}
+	
+	
 }
