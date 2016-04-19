@@ -13,6 +13,9 @@ import java.io.Serializable;
  * Cory		3/24	added save method. For some reason I have to declare FileOutputStream and ObjectOutputStream
  * 					inside class for some reason though. otherwise i get an exception	
  * 					added load method. this reads the info from .ser file and return Note object	
+ * 
+ * 
+ * 					adksfja;lksdfja;lskdjfa;lksdfj;alksdfja;lkdfjakdjf;oi
  * */
 
 public class Note 
