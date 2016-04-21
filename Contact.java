@@ -27,6 +27,7 @@ public class Contact
 	private String lastName;
 	private String firstName;
 	private String birthMonth;
+	private int birthDayMonthNum;
 	private int birthYear;
 	private int birthday;
 	private String phoneNumber;
@@ -39,6 +40,7 @@ public class Contact
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.birthMonth = monthNumberToString(birthMonth);
+		this.birthDayMonthNum = birthMonth;
 		this.birthYear = birthYear;
 		this.birthday = birthday;
 		this.phoneNumber = phonenumberFix(phoneNumber);
@@ -63,6 +65,11 @@ public class Contact
 	public String getBirthMonth() 
 	{
 		return birthMonth;
+	}
+	
+	public int getBirthMonthNum()
+	{
+		return birthDayMonthNum;
 	}
 
 	public int getBirthYear() 

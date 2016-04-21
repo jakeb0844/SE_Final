@@ -51,6 +51,11 @@ public class PackageCollection<T>
 	{
 		return collection.get(index);
 	}
+	
+	public void removeElement(int i)
+	{
+		collection.remove(i);
+	}
 
 	public void save(String fileName) 
 	{
@@ -63,18 +68,10 @@ public class PackageCollection<T>
 			fileOut.close();
 			System.out.println("Everything Worked!");
 		}
-		catch(IOException e)
+		catch(IOException i)
 		{
-			for(int i = 0; i < packageTypes.length; i++)
-			{
-				String filename = packageTypes[i];
-				File file = new File("sers/" + filename + ".ser");
-				this.save(filename);
-			}
-			/*
-			System.out.println("Everything Broke");
+			System.out.println("Everything Broke on save");
 			i.printStackTrace();
-			*/
 		}
 	}
 
@@ -97,12 +94,19 @@ public class PackageCollection<T>
 		}
 		catch(IOException i)
 		{
-			System.out.println("Everything broke");
+			System.out.println("Everything broke on lead io exception");
 			i.printStackTrace();
 		}
 		catch(ClassNotFoundException e)
 		{
-			System.out.println("Everything broke");
+			System.out.println("Everything broke on load class not found exception");
+			
+			for(int i = 0; i < packageTypes.length; i++)
+			{
+				String filename = packageTypes[i];
+				File file = new File("sers/" + filename + ".ser");
+				this.save(filename);
+			}
 		}
 	}
 	

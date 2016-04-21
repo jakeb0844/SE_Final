@@ -7,9 +7,6 @@ public class Semester
 	extends PackageCollection implements Serializable
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 45;
 	
 	private double gpa;

@@ -89,8 +89,8 @@ public class AddAssignmentWindow extends Window {
 		Year.setColumns(10);
 		
 		//creates the radio buttons... look at radioButtons class		
-		radioButtons r = new radioButtons();
-		contentPane.add(radioButtons.radioPanel);
+		RadioButtons r = new RadioButtons();
+		contentPane.add(RadioButtons.radioPanel);
 		
 		//adds a new button... not yet completed
 		JButton btnAdd = new JButton("Add");

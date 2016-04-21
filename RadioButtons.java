@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -11,11 +13,21 @@ import javax.swing.JRadioButton;
 
 public class RadioButtons extends JPanel implements ActionListener {
 		
+	private static final long serialVersionUID = 1L;
 		public static JPanel radioPanel;
 		private JRadioButton[] buttons = new JRadioButton[10];
 		
+		Course course = new Course();
+		
    public RadioButtons() {
 		super(new BorderLayout());
+		
+		File tmp = new File("sers/Courses.ser");
+		if(tmp.exists())
+		{
+			course.load("Courses");
+
+		}
 		
 		//Create the radio buttons.
 		JRadioButton class1 = new JRadioButton();
@@ -77,9 +89,9 @@ public class RadioButtons extends JPanel implements ActionListener {
 		
 		//might have to just write a get all method in course
 		public void setButtons(){
-			for(int i=0; i < Courses.courses.size(); i++){
-				buttons[i].setText(Courses.courses.get(i).getCourseTitle());
-				buttons[i].setActionCommand(Courses.courses.get(i).getCourseTitle());
+			for(int i=0; i < course.getSize(); i++){
+				buttons[i].setText(course.getElement(i).toString());
+				buttons[i].setActionCommand(course.getElement(i).toString());
 				buttons[i].setVisible(true);
 			}
 		}

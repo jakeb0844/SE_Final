@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -79,10 +80,33 @@ public class Window extends JFrame {
 	 */
 	public Window() {
 		start();
-		semester.load("semester");
-		course.load("course");
-		notebook.load("notebook");
-		addressbook.load("addressbook");
+		
+		File test = new File("sers/Semester.ser");
+		if(test.exists())
+		{
+			semester.load("Semester");
+
+		}
+		test = new File("sers/Courses.ser");
+		if(test.exists())
+		{
+			course.load("course");
+
+		}
+		
+		test = new File("sers/Notebook.ser");
+		if(test.exists())
+		{
+			notebook.load("Notebook");
+
+		}
+			
+		test = new File("sers/AddressBook");
+		if(test.exists())
+		{
+			addressbook.load("Addressbook");
+
+		}
 	}
 	
 	public void start(){
