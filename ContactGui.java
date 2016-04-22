@@ -24,6 +24,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +55,7 @@ public class ContactGui {
 
 	public ContactGui() {
 		
-		File f = new File("sers/AddressBook");
+		File f = new File("sers/AddressBook.ser");
 		if(f.exists())
 		{
 			addressbook.load("AddressBook");
@@ -64,6 +67,7 @@ public class ContactGui {
 	 * Initialize the contents of the frame.
 	 */
 	protected void initialize() {
+		
 		
 	
 		final JButton removeContact = new JButton("Remove");
@@ -97,7 +101,7 @@ public class ContactGui {
 					
 					
 					final JLabel firstName = new JLabel(tempContact.getFirstName());
-					firstName.setBounds(0, 0, 75, 14);
+					firstName.setBounds(0, 0, 200, 14);
 					panel2.add(firstName);
 					
 					final JLabel lastName = new JLabel(tempContact.getLastName());
@@ -214,7 +218,7 @@ public class ContactGui {
 		yoyo.add(removeContact);
 		
 		lblFirstName = new JLabel("First Name:");
-		lblFirstName.setBounds(200, 30, 75, 14);
+		lblFirstName.setBounds(200, 30, 200, 14);
 		yoyo.add(lblFirstName);
 		
 		lblLastName = new JLabel("Last Name:");
@@ -240,7 +244,15 @@ public class ContactGui {
 		lblAddress = new JLabel("Address:");
 		lblAddress.setBounds(200, 150, 75, 14);
 		yoyo.add(lblAddress);
+		
 			
+		for(int i=0; i < addressbook.getSize(); i++){
+			Contact tmp = (Contact) addressbook.getElement(i);
+			String name = tmp.getFirstName() + " " + tmp.getLastName();
+			holdNames.add(name);
+			listModel.addElement(name);
+		}
+		
 		
 	
 	}
@@ -353,6 +365,7 @@ public class ContactGui {
 		addressField.setColumns(10);
 		addressField.setBounds(146, 175, 86, 20);
 		frame2.getContentPane().add(addressField);
+		
 		
 		
 		

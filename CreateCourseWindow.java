@@ -11,6 +11,7 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Window.Type;
@@ -126,10 +127,14 @@ public class CreateCourseWindow extends Window {
 				//public Course(String title, String meetDays, int pAbs, int creditHours, String term, int year)
 				Course x = new Course(cTitle, cMd, cMaxD, cHrs);
 				Semester tmp = new Semester();
-				tmp.load("Courses");
+				File f = new File("sers/Course.ser");
+				if(f.exists())
+				{
+					tmp.load("Course");
+				}
 				tmp.addCourse(x);
 				
-				Window.printCourse(semester);
+				Window.printCourse(course);
 				contentPane.repaint();
 				
 				/*for(int i=0; i<Courses.courses.size(); i++){

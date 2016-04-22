@@ -16,14 +16,12 @@ public class PackageCollection<T>
 	private static String[] packageTypes = {"notebook", "addressbook", "course", "semester"};
 	
 	private static final long serialVersionUID = 45;
-
-	private final static int DEFAULT_CAPACITY = 25;
 	
 	private ArrayList<T> collection;
 	
 	public PackageCollection()
 	{
-		this(DEFAULT_CAPACITY);
+		collection = new ArrayList<T>();
 	}
 	
 	public PackageCollection(int initialCapacity)

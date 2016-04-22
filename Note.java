@@ -15,7 +15,6 @@ import java.io.Serializable;
  * 					added load method. this reads the info from .ser file and return Note object	
  * 
  * 
- * 					adksfja;lksdfja;lskdjfa;lksdfj;alksdfja;lkdfjakdjf;oi
  * */
 
 public class Note 

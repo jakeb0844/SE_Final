@@ -33,10 +33,8 @@ public class Window extends JFrame {
 	
 	
 	//collections
-	Semester semester = new Semester();
+	//Semester semester = new Semester();
 	Course course = new Course();
-	AddressBook addressbook = new AddressBook();
-	Notebook notebook = new Notebook();
 	 
 
 	/**
@@ -81,32 +79,14 @@ public class Window extends JFrame {
 	public Window() {
 		start();
 		
-		File test = new File("sers/Semester.ser");
-		if(test.exists())
-		{
-			semester.load("Semester");
-
-		}
-		test = new File("sers/Courses.ser");
+		
+		File test = new File("sers/Courses.ser");
 		if(test.exists())
 		{
 			course.load("course");
 
 		}
 		
-		test = new File("sers/Notebook.ser");
-		if(test.exists())
-		{
-			notebook.load("Notebook");
-
-		}
-			
-		test = new File("sers/AddressBook");
-		if(test.exists())
-		{
-			addressbook.load("Addressbook");
-
-		}
 	}
 	
 	public void start(){
@@ -174,7 +154,8 @@ public class Window extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				AddAssignmentWindow aaw = new AddAssignmentWindow();	
-					aaw.show();
+					//aaw.show();=======================================================================================================================================
+				aaw.setVisible(true);
 				
 			}
 		});
@@ -185,7 +166,7 @@ public class Window extends JFrame {
 		
 		
 		//printCourse on content pane
-		printCourse(semester);
+		printCourse(course);
 		
 		/*for(int i = 0; i < Course.Course.size(); i++){
 			makeLabel(Course.Course.get(i), x, y, w, h);
@@ -290,15 +271,15 @@ public class Window extends JFrame {
 	}
 	*/
 	
-	public static void printCourse(Semester semester)
+	public static void printCourse(Course course)
 	{
 		int x = 10;
 		int y = 40;
 		int w = 200;
 		int h = 14;
-		for(int i = 0; i < semester.getSize(); i++)
+		for(int i = 0; i < course.getSize(); i++)
 		{
-			makeLabel((Course)semester.getElement(i), x, y, w, h);
+			makeLabel((Course)course.getElement(i), x, y, w, h);
 		}
 	}
 	

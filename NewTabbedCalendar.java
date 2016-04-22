@@ -12,6 +12,9 @@ package tmp;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.GregorianCalendar;
 
@@ -50,6 +53,7 @@ public class NewTabbedCalendar {
 	 public static int count = 0;
 	 
 	 static EventCollection eventCollection = new EventCollection();
+	 static AddressBook addressbook = new AddressBook();
 
 	/**
 	 * Launch the application.
@@ -59,8 +63,7 @@ public class NewTabbedCalendar {
 			public void run() {
 				try {
 					NewTabbedCalendar window = new NewTabbedCalendar();
-					CountEvents.startArray();
-					CountBirthdays.startArray();
+					
 
 					window.frame.setVisible(true);
 					
@@ -69,6 +72,7 @@ public class NewTabbedCalendar {
 				}
 			}
 		});
+		
 	}
 
 	/**
@@ -85,6 +89,11 @@ public class NewTabbedCalendar {
 		{
 			eventCollection.load("Events");
 		}
+		
+		CountEvents.startArray();
+		CountBirthdays.startArray();
+		
+		
 		
 		initialize();
 		
@@ -155,6 +164,15 @@ public class NewTabbedCalendar {
 		CalendarGui2.pnlCalendar.add(monthLabel);
 		CalendarGui2.pnlCalendar.add(dayLabel);
 		CalendarGui2.pnlCalendar.add(descripLabel);
+		
+		WindowListener exitListener = new WindowAdapter() {//==================================================================================================================SAVE
+
+		    public void windowClosing(WindowEvent e) {
+		    	eventCollection.save("Events");
+		    	ContactGui.addressbook.save("AddressBook");
+		    }
+		};
+		frame.addWindowListener(exitListener);
 		
 		
 		
