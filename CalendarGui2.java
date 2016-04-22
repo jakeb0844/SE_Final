@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.channels.SelectableChannel;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
@@ -57,14 +58,21 @@ public class CalendarGui2 {
     public static JScrollPane scrollPane;
     public static JTextArea textArea;
     
-    EventCollection eventCollection = new EventCollection();
+   static EventCollection eventCollection2 = new EventCollection();
+    static AddressBook addressbook2 = new AddressBook();
     
     public CalendarGui2(){
-    	File f = new File("sers/Events.ser");
+    	/*File f = new File("sers/Events.ser");
     	if(f.exists())
     	{
     		eventCollection.load("Events");
     	}
+    	
+    	 f = new File("sers/Addressbook");
+    	if(f.exists())
+    	{
+    		addressbook.load("AddressBook");
+    	}*/
     	run();
     }
     
@@ -204,6 +212,9 @@ public class CalendarGui2 {
             }
          }//end for loop
         
+        eventCollection2 = NewTabbedCalendar.eventCollection;
+        addressbook2=ContactGui.addressbook;
+        
         //Apply renderers
         
         tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), new tblCalendarRenderer());
@@ -235,11 +246,15 @@ public class CalendarGui2 {
         		   
         	   }
            }
-                   
-          for(int i=0; i < eventCollection.getSize(); i++){
-        	   day=Event2.the.get(i).getDay();
-        	   month= Event2.the.get(i).getMonth()-1;
-        	   year= Event2.the.get(i).getYear();
+           			//ArrayList<Event2>tempE = new ArrayList<Event2>();
+           			//tempE.addAll(eventCollection2.getCollection());
+           			//System.out.println("this is in the calendar gui");
+                   //System.out.println(eventCollection2.getSize());
+          for(int i=0; i < eventCollection2.getSize(); i++){
+        	  Event2 tmp = (Event2)eventCollection2.getElement(i);
+        	   day=tmp.getDay();
+        	   month= tmp.getMonth()-1;
+        	   year= tmp.getYear();
         	           
 			    //paints 
 			        if(currentYear == year ){	   
@@ -264,6 +279,7 @@ public class CalendarGui2 {
 			    			if(value.equals(day)){
 			    				
 			    				numOfEvents=CountEvents.getCountEvents(month, (int) value-1);
+			    				System.out.println("the num of Events: "+numOfEvents) ;
 			    				
 			    				if(numOfEvents >= 1){
 			    					//clears the textArea for the events
@@ -314,10 +330,11 @@ public class CalendarGui2 {
             int birthMonth=0;
             String name;
             int numOfBDays=0;
-            
-     for(int x=0; x < Contact.contacts.size(); x++){
-  	   birthDay=Contact.contacts.get(x).getBirthday();
-  	   birthMonth=Contact.contacts.get(x).getBirthMonthNum()-1;
+            System.out.println("addressbook: " +addressbook2.getSize());
+     for(int x=0; x < addressbook2.getSize(); x++){
+    	 Contact tmp = (Contact)addressbook2.getElement(x);
+  	   birthDay=tmp.getBirthday();
+  	   birthMonth=tmp.getBirthMonthNum()-1;
   	   
   	   if(currentMonth==birthMonth){
       	   if(value!=null){
@@ -374,17 +391,19 @@ public class CalendarGui2 {
             int numOfBdays=0;
             String name="";
            
-          if(Contact.contacts.size() > 0 && Event2.the.size() > 0){
+          if(addressbook2.getSize() > 0 && eventCollection2.getSize() > 0){
         	  
-               for(int i =0; i < Contact.contacts.size(); i++){
-              	   name = Contact.contacts.get(i).getFirstName() + " " + Contact.contacts.get(i).getLastName();
-            	   birthDay=Contact.contacts.get(i).getBirthday();
-            	   birthMonth=Contact.contacts.get(i).getBirthMonthNum()-1;
+               for(int i =0; i < addressbook2.getSize(); i++){
+            	   Contact tmp = (Contact)addressbook2.getElement(i);
+              	   name = tmp.getFirstName() + " " + tmp.getLastName();
+            	   birthDay=tmp.getBirthday();
+            	   birthMonth=tmp.getBirthMonthNum()-1;
             	   
-            	   		for(int x =0; x < Event2.the.size(); x++){
-            	   			day=Event2.the.get(x).getDay();
-            	        	month= Event2.the.get(x).getMonth()-1;
-            	        	year= Event2.the.get(x).getYear();
+            	   		for(int x =0; x < eventCollection2.getSize(); x++){
+            	   			Event2 tmpEvent = (Event2)eventCollection2.getElement(i);
+            	   			day=tmpEvent.getDay();
+            	        	month= tmpEvent.getMonth()-1;
+            	        	year= tmpEvent.getYear();
             	        	  
             	        	
             	        	   if(currentMonth == birthMonth && currentMonth == month){
@@ -409,7 +428,7 @@ public class CalendarGui2 {
 		        	
 		    			if(value.equals(birthDay) && value.equals(day)){
 		    				
-		    				numOfEvents=Events.countEvents.getCountEvents(month, (int) value-1);
+		    				numOfEvents=CountEvents.getCountEvents(month, (int) value-1);
 		    				numOfBdays=CountBirthdays.getCountBirthday(birthMonth, (int)value-1);
 		    				
 		    				if(numOfEvents >= 1){
@@ -417,7 +436,7 @@ public class CalendarGui2 {
 		    					textArea.append((currentMonth+1) + "/" + day + "/" + currentYear+"\n");
 			    				
 		    					for(int multi = 0; multi < numOfEvents; multi++){
-		    						textArea.append(Events.countEvents.months.get(month)[day-1][multi].getDescription()+"\n");
+		    						textArea.append(CountEvents.months.get(month)[day-1][multi].getDescription()+"\n");
 		    					}
 		    				}
 		    				

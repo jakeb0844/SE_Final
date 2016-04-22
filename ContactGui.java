@@ -19,16 +19,17 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionListener;
 
-import Calendar.calendarGui2;
+//import Calendar.calendarGui2;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.event.ActionEvent;
 
-public class contactGui {
+public class ContactGui {
 
 	private JFrame frame;
 	ListSelectionModel listSelection;
@@ -45,9 +46,17 @@ public class contactGui {
 	public static JLabel lblFirstName,lblLastName,lblBirthMonth,lblBirthyear,lblBirthDay, lblPhoneNumber,lblAddress;
 	public static JList list;
 	public static ArrayList<String> holdNames = new ArrayList<String>();
+	
+	static AddressBook addressbook = new AddressBook();
 	 
 
-	public contactGui() {
+	public ContactGui() {
+		
+		File f = new File("sers/AddressBook");
+		if(f.exists())
+		{
+			addressbook.load("AddressBook");
+		}
 		initialize();
 	}
 
@@ -79,44 +88,45 @@ public class contactGui {
 				String temp;
 				
 				
-			for(int i =0; i < Contact.contacts.size(); i++){	
-				temp = Contact.contacts.get(i).getFirstName() + " " + Contact.contacts.get(i).getLastName();
+			for(int i =0; i < addressbook.getSize(); i++){	
+				Contact tempContact = (Contact)addressbook.getElement(i);
+				temp = tempContact.getFirstName() + " " + tempContact.getLastName();
 				
 				if(name.equals(temp)){
 					panel2.removeAll();
 					
 					
-					final JLabel firstName = new JLabel(Contact.contacts.get(i).getFirstName());
+					final JLabel firstName = new JLabel(tempContact.getFirstName());
 					firstName.setBounds(0, 0, 75, 14);
 					panel2.add(firstName);
 					
-					final JLabel lastName = new JLabel(Contact.contacts.get(i).getLastName());
+					final JLabel lastName = new JLabel(tempContact.getLastName());
 					lastName.setBounds(0,20,75,14);
 					panel2.add(lastName);
 					
-					final JLabel birthMonth = new JLabel(Contact.contacts.get(i).getBirthMonth());
+					final JLabel birthMonth = new JLabel(tempContact.getBirthMonth());
 					birthMonth.setBounds(0,40,75,14);
 					panel2.add(birthMonth);
 					
-					final JLabel birthDay = new JLabel(Integer.toString(Contact.contacts.get(i).getBirthday()));
+					final JLabel birthDay = new JLabel(Integer.toString(tempContact.getBirthday()));
 					birthDay.setBounds(0,60,75,14);
 					panel2.add(birthDay);
 					
-					final JLabel birthYear = new JLabel(Integer.toString(Contact.contacts.get(i).getBirthYear()));
+					final JLabel birthYear = new JLabel(Integer.toString(tempContact.getBirthYear()));
 					birthYear.setBounds(0,80,75,14);
 					panel2.add(birthYear);
 					
-					final JLabel phoneNum = new JLabel(Contact.contacts.get(i).getPhoneNumber());
+					final JLabel phoneNum = new JLabel(tempContact.getPhoneNumber());
 					phoneNum.setBounds(0,100,75,14);
 					panel2.add(phoneNum);
 					
-					final JLabel address = new JLabel(Contact.contacts.get(i).getAddress());
+					final JLabel address = new JLabel(tempContact.getAddress());
 					address.setBounds(0,120,300,14);
 					panel2.add(address);
 					
 					
 					
-					String extraLen = Contact.contacts.get(i).getAddress();
+					String extraLen = tempContact.getAddress();
 					String word;
 					if(extraLen.length() >= 43){
 						word= extraLen.substring(43, extraLen.length());
@@ -129,9 +139,10 @@ public class contactGui {
 						public void actionPerformed(ActionEvent arg0) {
 							String name2 = (String)list.getSelectedValue();
 							//System.out.println(name2);
-							for(int x =0; x < Contact.contacts.size(); x++){
-								if(name2.equals(Contact.contacts.get(x).getFirstName()+" " + Contact.contacts.get(x).getLastName())){
-									Contact.contacts.remove(x);
+							for(int x =0; x < addressbook.getSize(); x++){
+								Contact tempContact = (Contact)addressbook.getElement(x);
+								if(name2.equals(tempContact.getFirstName()+" " + tempContact.getLastName())){
+									//tempContact.remove(x);======================================================================================NEED REMOVE FUNCTION FOR CONTACT
 								}
 							}
 							
@@ -139,7 +150,7 @@ public class contactGui {
 							for(int i=0; i < listModel.size(); i++){
 								if(name2.equals(listModel.getElementAt(i))){
 									listModel.remove(i);
-									countBirthdays.countBdays();
+									CountBirthdays.countBdays();
 									firstName.setText(null);
 									lastName.setText(null);
 									birthMonth.setText(null);
@@ -148,7 +159,7 @@ public class contactGui {
 									address.setText(null);
 									phoneNum.setText(null);
 									panel2.repaint();
-									calendarGui2.refreshCalendar(calendarGui2.currentMonth, calendarGui2.currentYear);
+									CalendarGui2.refreshCalendar(CalendarGui2.currentMonth, CalendarGui2.currentYear);
 								}
 							}
 							
@@ -267,9 +278,10 @@ public class contactGui {
 						con = new Contact(lastField.getText(),firstField.getText(),Integer.parseInt(BirthMonthField.getText()),Integer.parseInt(BirthYearField.getText()),
 						Integer.parseInt(BirthDayField.getText()),phoneField.getText(),addressField.getText());
 				 
-				 addContact.add(con);
+				 //addContact.add(con);
+				 addressbook.addContact(con);
 				 
-				 calendarGui2.refreshCalendar(calendarGui2.currentMonth, calendarGui2.currentYear);
+				 CalendarGui2.refreshCalendar(CalendarGui2.currentMonth, CalendarGui2.currentYear);
 				
    				frame2.dispose();
 			}

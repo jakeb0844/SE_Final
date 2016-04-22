@@ -24,8 +24,8 @@ public static void countBdays(){
 		String des;
 		ArrayList<Contact> clone;
 		
-		AddressBook a = new AddressBook();
-		File f = new File("sers/Addressbook.ser");
+		//AddressBook a = new AddressBook();
+		/*File f = new File("sers/Addressbook.ser");
 		if(f.exists())
 		{
 			a.load("sers/AddressBook");
@@ -34,17 +34,21 @@ public static void countBdays(){
 		else
 		{
 			clone = new ArrayList<Contact>();
-		}
+		}*/
 		
+		PackageCollection a = new PackageCollection();
+		
+		a = ContactGui.addressbook;
 
-		for(int i=0; i < clone.size(); i++){
-			day1 = clone.get(i).getBirthday()-1;
+		for(int i=0; i < a.getSize(); i++){
+			Contact tmp = (Contact) a.getElement(i);
+			day1 = tmp.getBirthday()-1;
 			//System.out.println(day1);
 			
-			month = clone.get(i).getBirthMonthNum()-1;
+			month = tmp.getBirthMonthNum()-1;
 			//System.out.println(month);
 			
-			des=clone.get(i).getFirstName() + " " + clone.get(i).getLastName();
+			des=tmp.getFirstName() + " " + tmp.getLastName();
 			//System.out.println(des);
 			
 			for(int x =0; x < Cmonths.get(month).length; x++){
@@ -59,16 +63,16 @@ public static void countBdays(){
 							count++;
 						}
 											
-						Contact person = new Contact(clone.get(i).getLastName(), clone.get(i).getFirstName(), clone.get(i).getBirthMonthNum(),clone.get(i).getBirthYear(),
-								clone.get(i).getBirthday(), clone.get(i).getPhoneNumber(), clone.get(i).getAddress());
+						Contact person = new Contact(tmp.getLastName(), tmp.getFirstName(), tmp.getBirthMonthNum(),tmp.getBirthYear(),
+								tmp.getBirthday(), tmp.getPhoneNumber(), tmp.getAddress());
 					
 						Cmonths.get(month)[x][count] = person;
 						count=0;
 						
 					}
 					else{
-						Contact person = new Contact(clone.get(i).getLastName(), clone.get(i).getFirstName(), clone.get(i).getBirthMonthNum(),clone.get(i).getBirthYear(),
-								clone.get(i).getBirthday(), clone.get(i).getPhoneNumber(), clone.get(i).getAddress());
+						Contact person = new Contact(tmp.getLastName(), tmp.getFirstName(), tmp.getBirthMonthNum(),tmp.getBirthYear(),
+								tmp.getBirthday(), tmp.getPhoneNumber(), tmp.getAddress());
 						//System.out.println(i);
 						
 						Cmonths.get(month)[x][count] = person; 
@@ -93,7 +97,7 @@ public static void countBdays(){
 		 }
 		}
 
-	clone.clear();
+	
 			
 		
 	}

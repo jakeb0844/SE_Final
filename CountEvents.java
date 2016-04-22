@@ -20,25 +20,27 @@ public class CountEvents {
 	int count =0;
 	int day1,month;
 	String des;
-	ArrayList<Event2> clone = new ArrayList<Event2>();
+	//ArrayList<Event> clone = new ArrayList<Event>();
 	
 	//clone the event arraylist to clone arraylist. So nothing is erased from the event arraylist
-	//clone.addAll(Event2.the);
+	//clone.addAll(Event.the);
 	
-	//999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999   			DO THE THING THAT YOU DID FOR THE OTHER SHIT CORY
+	PackageCollection counEventsCollection = NewTabbedCalendar.eventCollection;
+	/*
 	File f = new File("sers/Events.ser");
 	if(f.exists())
 	{
 		EventCollection tmp = new EventCollection();
-		clone = tmp.getCollection();
-	}
+		counEventsCollection = tmp.getCollection();
+	}*/
 	
 	//Time to start counting the events
 	//outer for gets the attributes for the events
-	for(int i=0; i < clone.size(); i++){
-		day1 = clone.get(i).getDay()-1;
-		month = clone.get(i).getMonth()-1;
-		des=clone.get(i).getDescription();
+	for(int i=0; i < counEventsCollection.getSize(); i++){
+		Event2 temp = (Event2)counEventsCollection.getElement(i);
+		day1 = temp.getDay()-1;
+		month = temp.getMonth()-1;
+		des=temp.getDescription();
 		
 		//inner for counts the events on that specific day
 		//
@@ -55,7 +57,7 @@ public class CountEvents {
 						count++;
 					}
 					//Basically making a dublicate of the event in the event class					
-					Event2 p = new Event2(clone.get(i).getYear(),clone.get(i).getMonth(),clone.get(i).getDay(),clone.get(i).getDescription());
+					Event2 p = new Event2(temp.getYear(),temp.getMonth(),temp.getDay(),temp.getDescription());
 					
 					//adds it to the arraylist of arrays of months
 					months.get(month)[x][count] = p;
@@ -65,7 +67,7 @@ public class CountEvents {
 				}//end if for months.get(month)
 				//This else is for when the array index IS empty
 				else{
-					Event2 p = new Event2(clone.get(i).getYear(),clone.get(i).getMonth(),clone.get(i).getDay(),clone.get(i).getDescription());
+					Event2 p = new Event2(temp.getYear(),temp.getMonth(),temp.getDay(),temp.getDescription());
 										
 					months.get(month)[x][count] = p; 
 				}//end else
@@ -92,7 +94,7 @@ for(int mon =0; mon < 12; mon++){
 	}
 */
 	//clear the clone of events
-	clone.clear();
+	//temp.clear();
 }//end countem
 	
 	
@@ -224,6 +226,7 @@ for(int mon =0; mon < 12; mon++){
 					num++;
 				}
 			}
+			
 			
 		return num; 
 		

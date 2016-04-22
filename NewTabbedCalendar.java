@@ -49,7 +49,7 @@ public class NewTabbedCalendar {
 	 public static String descrip="";
 	 public static int count = 0;
 	 
-	 EventCollection eventCollection = new EventCollection();
+	 static EventCollection eventCollection = new EventCollection();
 
 	/**
 	 * Launch the application.
@@ -78,7 +78,7 @@ public class NewTabbedCalendar {
 		//Have to create instance of CalendarGui2 to access the Panel which contains the calendar
 		//Probably can do this a different way, but this works for now
 		CalendarGui2 gui = new CalendarGui2();
-		contactGui gui2 = new contactGui();
+		ContactGui gui2 = new ContactGui();
 		
 		File f = new File("sers/Events.ser");
 		if(f.exists())
@@ -114,7 +114,7 @@ public class NewTabbedCalendar {
 		//adds the pnlCalendar panel to the tabbed pane
 		//adds the contact panel to the tabbed pane
 		tabbedPane.addTab("My Calendar", null, CalendarGui2.pnlCalendar, null);
-		tabbedPane.addTab("Contacts", null, contactGui.yoyo, null);
+		tabbedPane.addTab("Contacts", null, ContactGui.yoyo, null);
 		
 		
 		yearField = new JTextField();
@@ -185,7 +185,8 @@ public class NewTabbedCalendar {
 									Event2 e = new Event2(Integer.parseInt(yearField.getText()), Integer.parseInt(monthField.getText()), Integer.parseInt(dayField.getText())
 											, descripField.getText());
 									
-									eventCollection.addElement(e);//	addEvents.add(e);
+									eventCollection.addEvent(e);//	addEvents.add(e);
+									
 							
 							
 									//after the event is added. Sets the desripField to empty

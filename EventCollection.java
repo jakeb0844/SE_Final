@@ -28,9 +28,16 @@ public class EventCollection
 		super();
 	}
 	
-	public Event getEvent(int i)
+	public void addEvent(Event2 e)
 	{
-		return (Event)super.getElement(i);
+		super.addElement(e);
+		CountEvents.clearArray();
+		CountEvents.countEm();
+	}
+	
+	public Event2 getEvent(int i)
+	{
+		return (Event2)super.getElement(i);
 	}
 	/*
 	public void checkDate()
