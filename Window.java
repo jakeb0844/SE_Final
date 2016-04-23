@@ -1,6 +1,10 @@
 package tmp;
 
+//4/22/16
+//Jake--- had to add another panel that sits inside the main panel, so we could dynamicly add courses and print them out
+
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,6 +16,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.SwingConstants;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -27,14 +32,14 @@ public class Window extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static JPanel contentPane;  //creates a global content pane
+	public static JPanel contentPane,coursePane;  //creates a global content pane
 	private static JTextArea textArea;  //creates a global textArea
-	//private ArrayList<Course> c = new ArrayList<>();
+	
 	
 	
 	//collections
 	//Semester semester = new Semester();
-	Course course = new Course();
+	public static Course courses = new Course();
 	 
 
 	/**
@@ -64,6 +69,10 @@ public class Window extends JFrame {
 					
 					tmp = new Assignment("Take Home Test", 3, 15, 2016);
 					DS.addAssignment(tmp);
+					
+					courses.addCourse(WC);
+					
+					
 					Window frame = new Window();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -80,12 +89,12 @@ public class Window extends JFrame {
 		start();
 		
 		
-		File test = new File("sers/Courses.ser");
+		/*File test = new File("sers/Courses.ser");
 		if(test.exists())
 		{
-			course.load("course");
+			courses.load("course");
 
-		}
+		}*/
 		
 	}
 	
@@ -103,6 +112,13 @@ public class Window extends JFrame {
 		CourseLabel.setBounds(10, 11, 66, 18);
 		CourseLabel.setFont(new Font("Verdana", Font.BOLD, 15));
 		contentPane.add(CourseLabel);
+		
+		
+		coursePane = new JPanel();
+		coursePane.setBounds(5, 40, 530, 240);
+		//coursePane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		coursePane.setLayout(null);
+		contentPane.add(coursePane);
 		
 		//Creates a Days label
 		JLabel DaysLabel = new JLabel("Days");
@@ -140,7 +156,7 @@ public class Window extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				CreateCourseWindow win = new CreateCourseWindow();
-				win.show();
+				
 			}
 		});
 		btnAddCourse.setFont(new Font("Verdana", Font.PLAIN, 12));
@@ -155,7 +171,7 @@ public class Window extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				AddAssignmentWindow aaw = new AddAssignmentWindow();	
 					//aaw.show();=======================================================================================================================================
-				aaw.setVisible(true);
+				//aaw.setVisible(true);
 				
 			}
 		});
@@ -166,7 +182,7 @@ public class Window extends JFrame {
 		
 		
 		//printCourse on content pane
-		printCourse(course);
+		printCourses();
 		
 		/*for(int i = 0; i < Course.Course.size(); i++){
 			makeLabel(Course.Course.get(i), x, y, w, h);
@@ -174,7 +190,7 @@ public class Window extends JFrame {
 		}*/
 		
 		//prints assignments on textarea
-		printAssignments(course);
+		printAssignments(courses);
 		
 		/*for(int i = 0; i < Course.Course.size(); i++){
 			if(Course.Course.get(i).a.size() > 0)
@@ -183,31 +199,31 @@ public class Window extends JFrame {
 		
 	}
 	
-	public static void makeLabel(Course a, int x, int y, int w, int h){
+	public static void makeLabel(final Course a, int x, int y, int w, int h){
 		
 				//Prints the course's Title
 				JLabel lblNewLabel = new JLabel(a.getCourseTitle());
 				lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 12));
 				lblNewLabel.setBounds(x, y, w, h);
-				contentPane.add(lblNewLabel);
+				coursePane.add(lblNewLabel);
 				
 				//Prints the days the course meets
 				JLabel lblNewLabel_2 = new JLabel(a.getMd());
 				lblNewLabel_2.setFont(new Font("Verdana", Font.PLAIN, 12));
 				lblNewLabel_2.setBounds(x+200, y, 46, h);
-				contentPane.add(lblNewLabel_2);
+				coursePane.add(lblNewLabel_2);
 				
 				//Prints the amount of days skipped
-				JLabel lblNewLabel_3 = new JLabel(String.valueOf(a.getAbs()));
+				final JLabel lblNewLabel_3 = new JLabel(String.valueOf(a.getAbs()));
 				lblNewLabel_3.setFont(new Font("Verdana", Font.PLAIN, 12));
 				lblNewLabel_3.setBounds(x+300, y, 46, h);
-				contentPane.add(lblNewLabel_3);
+				coursePane.add(lblNewLabel_3);
 				
 				//prints the max amount of days a person can skip
 				JLabel lblNewLabel_4 = new JLabel(String.valueOf(a.getPabs()));
 				lblNewLabel_4.setFont(new Font("Verdana", Font.PLAIN, 12));
 				lblNewLabel_4.setBounds(x+440, y, 46, h);
-				contentPane.add(lblNewLabel_4);
+				coursePane.add(lblNewLabel_4);
 				
 				//creates an add button to the right of the days skipped label
 				JButton button = new JButton("+");
@@ -220,7 +236,7 @@ public class Window extends JFrame {
 						lblNewLabel_3.setText(String.valueOf(a.getAbs()));
 					}
 				});
-				contentPane.add(button);
+				coursePane.add(button);
 				
 				//creates a minus button that brings the value of the days skipped label down
 				JButton button_1 = new JButton("-");
@@ -232,20 +248,10 @@ public class Window extends JFrame {
 						lblNewLabel_3.setText(String.valueOf(a.getDaysSkipped()));
 					}
 				});
-				contentPane.add(button_1);
+				coursePane.add(button_1);
 							
 	}
 	
-	//method used to print Assignments on textArea
-	/*
-	public static void printAssignments(){
-		textArea.setText("");
-		for(int i = 0; i < Course.Course.size(); i++){
-			if(Course.Course.get(i).a.size() > 0)
-			textArea.append(Course.Course.get(i).showAssignments());
-		}
-	}
-	*/
 	
 	//Cory --- i think this is a quicker, more elegant way
 	public static void printAssignments(Course course)
@@ -257,30 +263,26 @@ public class Window extends JFrame {
 		}
 	}
 	
-	/*
-	//prints Course on the content pain
-	public static void printCourse(){
-		int x = 10;
-		int y = 40;
-		int w = 200;
-		int h = 14;
-		for(int i = 0; i < Course.Course.size(); i++){
-			makeLabel(Course.Course.get(i), x, y, w, h);
-			y = y + 25;
-		}
-	}
-	*/
 	
-	public static void printCourse(Course course)
+	public static void printCourses()
 	{
-		int x = 10;
-		int y = 40;
+		int x = 0;
+		int y = 0;
 		int w = 200;
 		int h = 14;
-		for(int i = 0; i < course.getSize(); i++)
+		
+		System.out.println(courses.getSize());
+		
+		coursePane.removeAll();
+		
+		for(int i = 0; i < courses.getSize(); i++)
 		{
-			makeLabel((Course)course.getElement(i), x, y, w, h);
+			makeLabel((Course)courses.getElement(i), x, y+(i*30), w, h);
 		}
+		
+		
+		
+		coursePane.repaint();
 	}
 	
 	

@@ -8,13 +8,11 @@ package tmp;
 //4/7/16
 //fixed the problem with the remove an event
 //add check if the user enters a duplicate event on same day
-
+//4/22/16
+//added courses and notebook to the tabs
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.GregorianCalendar;
 
@@ -31,15 +29,6 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-/*
-import Calendar.CalendarGui2;
-import Contact.contactGui;
-import Contact.countBirthdays;
-import Events.Event2;
-import Events.CountEvents;
-*/
-
-
 
 public class NewTabbedCalendar {
 
@@ -53,7 +42,6 @@ public class NewTabbedCalendar {
 	 public static int count = 0;
 	 
 	 static EventCollection eventCollection = new EventCollection();
-	 static AddressBook addressbook = new AddressBook();
 
 	/**
 	 * Launch the application.
@@ -62,6 +50,8 @@ public class NewTabbedCalendar {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
+					
 					NewTabbedCalendar window = new NewTabbedCalendar();
 					
 
@@ -72,7 +62,6 @@ public class NewTabbedCalendar {
 				}
 			}
 		});
-		
 	}
 
 	/**
@@ -83,17 +72,18 @@ public class NewTabbedCalendar {
 		//Probably can do this a different way, but this works for now
 		CalendarGui2 gui = new CalendarGui2();
 		ContactGui gui2 = new ContactGui();
+		Window gui3 = new Window();
+		notebookGui gui4 = new notebookGui();
+		
+		CountEvents.startArray();
+		CountBirthdays.startArray();
+		
 		
 		File f = new File("sers/Events.ser");
 		if(f.exists())
 		{
 			eventCollection.load("Events");
 		}
-		
-		CountEvents.startArray();
-		CountBirthdays.startArray();
-		
-		
 		
 		initialize();
 		
@@ -124,7 +114,8 @@ public class NewTabbedCalendar {
 		//adds the contact panel to the tabbed pane
 		tabbedPane.addTab("My Calendar", null, CalendarGui2.pnlCalendar, null);
 		tabbedPane.addTab("Contacts", null, ContactGui.yoyo, null);
-		
+		tabbedPane.addTab("My Courses",null, Window.contentPane,null);
+		tabbedPane.addTab("My Notes",null, notebookGui.notePanel,null);
 		
 		yearField = new JTextField();
 		yearField.setBounds(408, 46, 86, 20);
@@ -164,15 +155,6 @@ public class NewTabbedCalendar {
 		CalendarGui2.pnlCalendar.add(monthLabel);
 		CalendarGui2.pnlCalendar.add(dayLabel);
 		CalendarGui2.pnlCalendar.add(descripLabel);
-		
-		WindowListener exitListener = new WindowAdapter() {//==================================================================================================================SAVE
-
-		    public void windowClosing(WindowEvent e) {
-		    	eventCollection.save("Events");
-		    	ContactGui.addressbook.save("AddressBook");
-		    }
-		};
-		frame.addWindowListener(exitListener);
 		
 		
 		

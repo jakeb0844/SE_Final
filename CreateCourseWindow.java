@@ -16,12 +16,13 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Window.Type;
 
-public class CreateCourseWindow extends Window {
+public class CreateCourseWindow extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 45;
+	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField CourseTitle;
 	private JTextField CourseMeetDays;
@@ -36,7 +37,7 @@ public class CreateCourseWindow extends Window {
 			public void run() {
 				try {
 					CreateCourseWindow frame = new CreateCourseWindow();
-					frame.setVisible(true);
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -48,70 +49,67 @@ public class CreateCourseWindow extends Window {
 	 * Create the frame.
 	 */
 	public CreateCourseWindow() {
-		setType(Type.POPUP);
-		setForeground(Color.LIGHT_GRAY);
-		setFont(new Font("Verdana", Font.PLAIN, 12));
-		setTitle("Add Course");
-		setBounds(100, 100, 300, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		frame = new JFrame();
+		frame.setBounds(100, 100, 300, 300);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
 		
 		//Creates a textfield for the input of a course title
 		CourseTitle = new JTextField();
-		CourseTitle.setText("ex. Software Eng.");
+		CourseTitle.setText("Software Eng.");
 		CourseTitle.setFont(new Font("Verdana", Font.PLAIN, 12));
 		CourseTitle.setBounds(25, 34, 144, 20);
-		contentPane.add(CourseTitle);
+		frame.add(CourseTitle);
 		CourseTitle.setColumns(10);
 		
 		//creates course title label
 		JLabel lblCourseTitle = new JLabel("Course Title");
 		lblCourseTitle.setFont(new Font("Verdana", Font.PLAIN, 12));
 		lblCourseTitle.setBounds(26, 11, 85, 14);
-		contentPane.add(lblCourseTitle);
+		frame.add(lblCourseTitle);
 		
 		//creates course meet days label
 		JLabel CourseMeetDayslbl = new JLabel("Days Course Meet");
 		CourseMeetDayslbl.setFont(new Font("Verdana", Font.PLAIN, 12));
 		CourseMeetDayslbl.setBounds(25, 65, 123, 14);
-		contentPane.add(CourseMeetDayslbl);
+		frame.add(CourseMeetDayslbl);
 		
 		//creates a course meet days text field
 		CourseMeetDays = new JTextField();
-		CourseMeetDays.setText("ex. MWF");
+		CourseMeetDays.setText("MWF");
 		CourseMeetDays.setFont(new Font("Verdana", Font.PLAIN, 12));
 		CourseMeetDays.setBounds(25, 90, 59, 20);
-		contentPane.add(CourseMeetDays);
+		frame.add(CourseMeetDays);
 		CourseMeetDays.setColumns(10);
 		
 		//creates a max abs label
 		JLabel lblNewLabel = new JLabel("Max Absensces");
 		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 12));
 		lblNewLabel.setBounds(25, 121, 123, 14);
-		contentPane.add(lblNewLabel);
+		frame.add(lblNewLabel);
 		
 		//creates a max abs text field
 		MaxAbs = new JTextField();
-		MaxAbs.setText("ex. 8");
+		MaxAbs.setText("8");
 		MaxAbs.setFont(new Font("Verdana", Font.PLAIN, 12));
 		MaxAbs.setBounds(25, 146, 51, 20);
-		contentPane.add(MaxAbs);
+		frame.add(MaxAbs);
 		MaxAbs.setColumns(10);
 		
 		//creates a course hours label
 		JLabel lblCourseHours = new JLabel("Course Hours");
 		lblCourseHours.setFont(new Font("Verdana", Font.PLAIN, 12));
 		lblCourseHours.setBounds(25, 177, 94, 14);
-		contentPane.add(lblCourseHours);
+		frame.add(lblCourseHours);
 		
 		//creates a course hours text field
 		CourseHours = new JTextField();
-		CourseHours.setText("ex. 3");
+		CourseHours.setText("3");
 		CourseHours.setFont(new Font("Verdana", Font.PLAIN, 12));
 		CourseHours.setBounds(25, 202, 51, 20);
-		contentPane.add(CourseHours);
+		frame.add(CourseHours);
 		CourseHours.setColumns(10);
 		
 		//creates a button that enables a user to add course
@@ -126,16 +124,21 @@ public class CreateCourseWindow extends Window {
 				
 				//public Course(String title, String meetDays, int pAbs, int creditHours, String term, int year)
 				Course x = new Course(cTitle, cMd, cMaxD, cHrs);
-				Semester tmp = new Semester();
+				//Semester tmp = new Semester();
 				File f = new File("sers/Course.ser");
-				if(f.exists())
+				/*if(f.exists())
 				{
 					tmp.load("Course");
-				}
-				tmp.addCourse(x);
+				}*/
+				//tmp.addCourse(x);
 				
-				Window.printCourse(course);
-				contentPane.repaint();
+				Window.courses.addCourse(x);
+				
+				Window.printCourses();
+				
+				
+				frame.dispose();
+				
 				
 				/*for(int i=0; i<Courses.courses.size(); i++){
 					System.out.println(Courses.courses.get(i).toString());
@@ -144,18 +147,18 @@ public class CreateCourseWindow extends Window {
 		});
 		btnAdd.setFont(new Font("Verdana", Font.PLAIN, 12));
 		btnAdd.setBounds(185, 168, 89, 23);
-		contentPane.add(btnAdd);
+		frame.add(btnAdd);
 		
 		//creates a cancel button
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			//Action listener should close window
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
 			}
 		});
 		btnCancel.setFont(new Font("Verdana", Font.PLAIN, 12));
 		btnCancel.setBounds(185, 201, 89, 23);
-		contentPane.add(btnCancel);
+		frame.add(btnCancel);
 	}
 }
