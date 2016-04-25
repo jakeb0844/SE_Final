@@ -1,3 +1,4 @@
+
 package tmp;
 //Cory Wheeless
 //3-18
@@ -45,15 +46,20 @@ public class Event2
 		 //the.add(this);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void checkDate()
-	{
-		long secondsBetween = event.getTime() - current.getTime();
-		long fiveDays = 1000 * 86400 * 5;
+	{	
+		Date temp = event;
+		temp.setMonth(theMonth - 1);
+		long millisecondsBetween = temp.getTime() - current.getTime();
+		long fiveDays = 432000000;									//milliseconds in 5 days
 		
-		if(secondsBetween < fiveDays)
+		
+		
+		if(millisecondsBetween <= fiveDays && millisecondsBetween > 0)
 		{
-			System.out.println("Upcoming event in " + (((secondsBetween / 1000) / 60) / 60) / 24 + " days");
-			
+			System.out.println("Upcoming event in " + (((millisecondsBetween / 1000) / 60) / 60) / 24 + " days");
+			System.out.println(theDescription + "\n");
 		}
 		else
 		{
