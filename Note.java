@@ -15,16 +15,16 @@ import java.io.Serializable;
  * 					added load method. this reads the info from .ser file and return Note object	
  * 
  * 
+ * 					adksfja;lksdfja;lskdjfa;lksdfj;alksdfja;lkdfjakdjf;oi
  * */
 
 public class Note 
 	implements Serializable
-{	/**
-	 * 
-	 */
+{	
 	private static final long serialVersionUID = 45;
 	private String title;
 	private String content;
+	private String dateCreated;
 	
 	public Note(String title, String content) 
 	{
@@ -41,6 +41,18 @@ public class Note
 	public String getTitle()
 	{
 		return title;
+	}
+	
+	public String getContent(){
+		return content;
+	}
+	
+	public void setDateCreated(String date){
+		this.dateCreated = date;
+	}
+	
+	public String getDateCreated(){
+		return this.dateCreated;
 	}
 	
 	public String toString()

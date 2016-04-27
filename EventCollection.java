@@ -17,9 +17,7 @@ import java.util.Date;
 public class EventCollection
 	extends PackageCollection implements Serializable
 {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 45;
 	
 	
@@ -39,21 +37,5 @@ public class EventCollection
 	{
 		return (Event2)super.getElement(i);
 	}
-	/*
-	public void checkDate()
-	{
-		long secondsBetween = event.getTime() - current.getTime();
-		long fiveDays = 1000 * 86400 * 5;
-		
-		if(secondsBetween < fiveDays)
-		{
-			System.out.println("Upcoming event in " + (((secondsBetween / 1000) / 60) / 60) / 24 + " days");
-			
-		}
-		else
-		{
-			System.out.println("No upcoming event");
-		}
-	}
-	*/
+
 }

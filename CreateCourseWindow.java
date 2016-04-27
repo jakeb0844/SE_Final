@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -18,47 +19,25 @@ import java.awt.Window.Type;
 
 public class CreateCourseWindow extends JFrame {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 45;
 	private JFrame frame;
-	private JPanel contentPane;
 	private JTextField CourseTitle;
 	private JTextField CourseMeetDays;
 	private JTextField MaxAbs;
 	private JTextField CourseHours;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateCourseWindow frame = new CreateCourseWindow();
-					//frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public CreateCourseWindow() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 300, 300);
 		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		
 		//Creates a textfield for the input of a course title
 		CourseTitle = new JTextField();
-		CourseTitle.setText("Software Eng.");
 		CourseTitle.setFont(new Font("Verdana", Font.PLAIN, 12));
 		CourseTitle.setBounds(25, 34, 144, 20);
 		frame.add(CourseTitle);
@@ -117,34 +96,72 @@ public class CreateCourseWindow extends JFrame {
 		btnAdd.addActionListener(new ActionListener() {
 			//Action Listener adds the course
 			public void actionPerformed(ActionEvent e) {
-				String cTitle =CourseTitle.getText();
-				String cMd = CourseMeetDays.getText();
-				int cMaxD = Integer.parseInt(MaxAbs.getText());
-				int cHrs = Integer.parseInt(CourseHours.getText());
+				String cTitle="",cMd="";
+				int cMaxD=0,cHrs=0;
+				boolean noDuplicate=true;
+			try{
+				//makes sure none of the textfield are empty
+				if(!(CourseTitle.getText().equals(""))){
+					if(!(CourseMeetDays.getText().equals(""))){
+						if(!(MaxAbs.getText().equals(""))){
+							if(!(CourseHours.getText().equals(""))){
+								
+								//checks if there are any duplicates
+								for(int i=0; i < Window.courses.getSize();i++){
+									Course c = (Course) Window.courses.getElement(i);
+									
+									if(c.getCourseTitle().equals(CourseTitle.getText())){
+										noDuplicate=false;
+									}
+								}
+						
+								if(noDuplicate){
+								
+										cTitle=CourseTitle.getText();
+										cMd = CourseMeetDays.getText();
+										cMaxD = Integer.parseInt(MaxAbs.getText());
+										cHrs = Integer.parseInt(CourseHours.getText());
+										
+										//public Course(String title, String meetDays, int pAbs, int creditHours, String term, int year)
+										Course x = new Course(cTitle, cMd, cMaxD, cHrs);
+										
+										
+										Window.courses.addCourse(x);
+										
+										Window.printCourses();
+										
+										
+										frame.dispose();
+								}//no duplicate
+								else{
+									JOptionPane.showMessageDialog(null,"You have already created that course!");
+								}
+							}//ends Course Hours if
+							else{
+								JOptionPane.showMessageDialog(null,"Please enter Course Hours!");
+							}
+						} //ends MaxAbs if
+						else{
+							JOptionPane.showMessageDialog(null,"Please enter the Max Course Days!");
+						}
+					} //ends CourseMeetDays if
+					else{
+						JOptionPane.showMessageDialog(null,"Please enter Course Meet Days!");
+					}
 				
-				//public Course(String title, String meetDays, int pAbs, int creditHours, String term, int year)
-				Course x = new Course(cTitle, cMd, cMaxD, cHrs);
-				//Semester tmp = new Semester();
-				File f = new File("sers/Course.ser");
-				/*if(f.exists())
-				{
-					tmp.load("Course");
-				}*/
-				//tmp.addCourse(x);
-				
-				Window.courses.addCourse(x);
-				
-				Window.printCourses();
+				}//end CourseTitle if
+				else{
+					JOptionPane.showMessageDialog(null,"Please enter a Course Title");
+				}
 				
 				
-				frame.dispose();
-				
-				
-				/*for(int i=0; i<Courses.courses.size(); i++){
-					System.out.println(Courses.courses.get(i).toString());
-				}*/
+			}
+			catch(NumberFormatException eee){
+				JOptionPane.showMessageDialog(null,"Please enter only numbers!");
+			}
 			}
 		});
+		
 		btnAdd.setFont(new Font("Verdana", Font.PLAIN, 12));
 		btnAdd.setBounds(185, 168, 89, 23);
 		frame.add(btnAdd);

@@ -6,9 +6,7 @@ import java.io.Serializable;
 public class Course 
 	extends PackageCollection implements Serializable
 {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 45;
 	private String title;  //represents the title of the class
 	private String meetDays; //represents the days the class meets
@@ -40,6 +38,12 @@ public class Course
 		this.creditHours = creditHours;
 		this.term = term;
 		this.year = year;
+	}
+	
+	//Jake--- had to add this so we could store courses..
+	@SuppressWarnings("unchecked")
+	public void addCourse(Course c){
+		super.addElement(c);
 	}
 	
 	public String getCourseTitle()
@@ -129,51 +133,5 @@ public class Course
 		return Fgrade;
 	}
 	
-	//Assignment(String title, int month, int day, int year
-	//add an assignment to the course
-	@SuppressWarnings("unchecked")
-	public void addAssignment(Assignment tmp)
-	{  
-		super.addElement(tmp);
-	}
-	
-	/*
-	//removes a specific assignment from the course
-	public void deleteAssignment(Assignment b)
-	{  
-		assignments.remove(b);
-	}
-	
-	//Clears all assignments for the course
-	public void clearAssignments()
-	{  
-		assignments.clear();
-	}
-	*/
-	
-	/*
-	need calender to complete!!!
-	public Assignments nextDue(){
-		Assignments next = new Assignments();
-		for(int i=0; i <= 15; i++){
-			if(a.get(i).getDueDate() ;
-			
-		}
-		
-		return next;
-	}
-	*/
-	
-	/*
-	public String toString()
-	{
-		String result = "";
-		
-		for(int i = 0; i < assignments.size(); i++)
-		{
-			result += assignments.get(i).toString();
-		}
-		return result;
-	}
-	*/
+
 }

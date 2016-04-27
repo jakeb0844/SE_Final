@@ -15,9 +15,7 @@ import java.io.Serializable;
 public class Contact 
 	implements Serializable
 {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 45;
 
 	//Array of month names. The constructor takes in month number and uses this to store month string
@@ -110,11 +108,7 @@ public class Contact
 
 	@Override
 	public String toString() 
-	{/*
-		String result = "";
-		result = result + lastName;
-		
-		return result;*/
+	{
 		
 		return firstName + " " + lastName + "\n";
 	}

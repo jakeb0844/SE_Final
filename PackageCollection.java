@@ -16,12 +16,14 @@ public class PackageCollection<T>
 	private static String[] packageTypes = {"notebook", "addressbook", "course", "semester"};
 	
 	private static final long serialVersionUID = 45;
+
+	private final static int DEFAULT_CAPACITY = 25;
 	
 	private ArrayList<T> collection;
 	
 	public PackageCollection()
 	{
-		collection = new ArrayList<T>();
+		this(DEFAULT_CAPACITY);
 	}
 	
 	public PackageCollection(int initialCapacity)
@@ -55,6 +57,7 @@ public class PackageCollection<T>
 		collection.remove(i);
 	}
 
+	//need to have the Folder sers associated with the program
 	public void save(String fileName) 
 	{
 		try
@@ -64,15 +67,16 @@ public class PackageCollection<T>
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
-			System.out.println("Everything Worked!");
+			//System.out.println("Everything Worked!");
 		}
 		catch(IOException i)
 		{
-			System.out.println("Everything Broke on save");
+			//System.out.println("Everything Broke on save");
 			i.printStackTrace();
 		}
 	}
 
+	//need to have the Folder sers associated with the program
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(String fileName)
 	{
@@ -92,12 +96,12 @@ public class PackageCollection<T>
 		}
 		catch(IOException i)
 		{
-			System.out.println("Everything broke on lead io exception");
+			//System.out.println("Everything broke on lead io exception");
 			i.printStackTrace();
 		}
 		catch(ClassNotFoundException e)
 		{
-			System.out.println("Everything broke on load class not found exception");
+			//System.out.println("Everything broke on load class not found exception");
 			
 			for(int i = 0; i < packageTypes.length; i++)
 			{

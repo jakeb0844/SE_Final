@@ -1,4 +1,3 @@
-
 package tmp;
 //Cory Wheeless
 //3-18
@@ -17,9 +16,7 @@ import java.util.Date;
 public class Event2
 	implements Serializable
 {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 45;
 	private Calendar calendar;
 	private Date current;
@@ -42,9 +39,8 @@ public class Event2
 		 theDay= day;
 		 theDescription=description;
 	
-		 //The way I have it set up now.. we dont need this. There is a class for it addEvents
-		 //the.add(this);
 	}
+	
 	
 	@SuppressWarnings("deprecation")
 	public void checkDate()

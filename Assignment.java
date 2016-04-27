@@ -3,7 +3,7 @@ package tmp;
 import java.io.Serializable;
 
 public class Assignment 
-	implements Serializable
+	extends PackageCollection implements Serializable
 {
 	/**
 	 * 
@@ -14,23 +14,27 @@ public class Assignment
 	private static String[] months= new String[] {"January", "February", "March", "April", "May", "June", "July",
 												  "August", "September", "October", "November", "December"};
 
-	private String title, month; 
-	private int  day, year, grade;
+	private String title, month, course; 
+	private int  day, year, grade, monthNum;
+	
 	
 	//to do create object of type event ========================================
-	public Assignment(String title, int month, int day, int year) 
+	public Assignment(String title, int month, int day, int year, String courseTitle) 
 	{
-		super();
+		//super();
 		this.title = title;
+		this.monthNum=month;
 		this.month =  monthNumberToString(month);
 		this.day = day;
 		this.year = year;
+		this.course=courseTitle;
 	}
 
 	public Assignment()
 	{
-		title = "null";
+		super();
 	}
+
 	
 	public String getAssignment()
 	{
@@ -61,6 +65,10 @@ public class Assignment
 		return month;
 	}
 	
+	public int getMonthNum(){
+		return monthNum;
+	}
+	
 	public int getDay()
 	{
 		return day;
@@ -85,6 +93,16 @@ public class Assignment
 	private String monthNumberToString(int num)
 	{
 		return months[num - 1];
+	}
+	
+	public String getCourse(){
+		return course;
+	}
+	
+	public void addAssignment(Assignment a){
+		super.addElement(a);
+		CountAssignments.clearArray();
+		CountAssignments.countAssignments();
 	}
 	
 	public String toString()

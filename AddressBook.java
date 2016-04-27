@@ -24,6 +24,8 @@ public class AddressBook
 	public void addContact(Contact c)
 	{
 		super.addElement(c);
+		//when a contact is added re count the bdays
+		//have to clear the array first
 		CountBirthdays.clearCmonthsArray();
 		CountBirthdays.countBdays();
 	}

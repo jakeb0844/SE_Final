@@ -5,51 +5,40 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
-public class AddAssignmentWindow extends Window {
+public class AddAssignmentWindow extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField aTitle;
 	private JTextField Month;
 	private JTextField Day;
 	private JTextField Year;
+	
+	//static string to get the course name from radio panel
+	public static String cT="";
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddAssignmentWindow frame = new AddAssignmentWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public AddAssignmentWindow() {
+		final JFrame frame = new JFrame();
+		frame.setTitle("Add Assignment");
+		frame.setBounds(500, 100, 300, 350);
+		frame.setVisible(true);
 		
-		setType(Type.POPUP);
-		setForeground(Color.LIGHT_GRAY);
-		setFont(new Font("Verdana", Font.PLAIN, 12));
-		setTitle("Add Assignment");
-		setBounds(500, 100, 300, 350);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		frame.getContentPane().add(contentPane);
 		
 		JLabel AssignmentTitle = new JLabel("Assignment");
 		AssignmentTitle.setFont(new Font("Verdana", Font.PLAIN, 12));
@@ -74,12 +63,35 @@ public class AddAssignmentWindow extends Window {
 		contentPane.add(Month);
 		Month.setColumns(10);
 		
+		//focus listner to selectall in the month field
+		Month.addFocusListener(new java.awt.event.FocusAdapter() {
+		    public void focusGained(java.awt.event.FocusEvent evt) {
+		        SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		                Month.selectAll();
+		            }
+		        });
+		    }
+		});		
 		Day = new JTextField();
 		Day.setFont(new Font("Verdana", Font.PLAIN, 12));
 		Day.setText("DD");
 		Day.setBounds(109, 94, 26, 20);
 		contentPane.add(Day);
 		Day.setColumns(10);
+		
+		//focus listner to selectall in the day field
+		Day.addFocusListener(new java.awt.event.FocusAdapter() {
+		    public void focusGained(java.awt.event.FocusEvent evt) {
+		        SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		                Day.selectAll();
+		            }
+		        });
+		    }
+		});	
 		
 		Year = new JTextField();
 		Year.setText("YYYY");
@@ -88,25 +100,128 @@ public class AddAssignmentWindow extends Window {
 		contentPane.add(Year);
 		Year.setColumns(10);
 		
+		//focus listner to selectall in the year field
+		Year.addFocusListener(new java.awt.event.FocusAdapter() {
+		    public void focusGained(java.awt.event.FocusEvent evt) {
+		        SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		                Year.selectAll();
+		            }
+		        });
+		    }
+		});	
+		
 		//creates the radio buttons... look at radioButtons class		
-		RadioButtons r = new RadioButtons();
-		contentPane.add(RadioButtons.radioPanel);
+		radioButtons r = new radioButtons(10, 120, 200, 120);
+		contentPane.add(radioButtons.radioPanel);
 		
 		//adds a new button... not yet completed
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			//Adds assignment to course
 			public void actionPerformed(ActionEvent e) {
-				
+			try{	
 				//Parameters for the asssignment object
-				String a = aTitle.getText();
-				int m = Integer.parseInt(Month.getText()) - 1;
-				int d = Integer.parseInt(Day.getText());
-				int y = Integer.parseInt(Year.getText());
+				String aT;
+				int m=0,d=0,y=0;
 				
+				if(!(aTitle.getText().equals(""))){
+				 aT = aTitle.getText();
+				 
+					if(!(Month.getText().equals(""))){
+					 m = Integer.parseInt(Month.getText()) ;
+					 
+						 if(!(Day.getText().equals(""))){
+						 d = Integer.parseInt(Day.getText());
+						 
+							 if(!(Year.getText().equals(""))){
+							 
+							 y = Integer.parseInt(Year.getText());
+							 
+								 if(!(cT.equals(""))){
+									 //checks month range
+									 if(Integer.parseInt(Month.getText()) >= 1 && Integer.parseInt(Month.getText()) <= 12 ){
+										 
+										 if(NewTabbedCalendar.checkDateRange(Month,Day,Year)){
+											 
+											 if(Year.getText().equals("2016")){
+												 
+												 if(Integer.parseInt(Day.getText()) >= CalendarGui2.realDay && Integer.parseInt(Month.getText()) >= CalendarGui2.currentMonth){
+								
+										int x = JOptionPane.showConfirmDialog(
+											    frame,
+											    "Add this assignment to " + cT+"?",
+											    "Assignment Conformation",
+											    JOptionPane.YES_NO_OPTION);
+									
+										if(x == JOptionPane.YES_OPTION){
+										
+											
+										Assignment a = new Assignment(aT,m,d,y,cT);
+										
+										//adds assignment then re count them
+										Window.assignments.addAssignment(a);
+										CountAssignments.countAssignments();
+											
+										//writes out the assignments... the method is in the window class
+										Window.printAssignments();
+										
+										frame.dispose();
+										}//yes/no
+										
+										}//end date has passed
+												 else{
+													 JOptionPane.showMessageDialog(null,"Date has passed!");
+												 }
+												 
+										 }//year
+											 
+										 else{
+											 JOptionPane.showMessageDialog(null,"Year not in range!");
+										 }
+											 
+										}//end date check
+										 
+										 else{
+											 JOptionPane.showMessageDialog(null,"Day not in range!");
+										 }
+									 }//end year check
+									 else{
+										 JOptionPane.showMessageDialog(null,"Month not in range!");
+									 }
+							 }//end course if
+								 else{
+									 JOptionPane.showMessageDialog(null,"Please select a course!");
+								 }
+							
+							 }
+								 else{
+									 JOptionPane.showMessageDialog(null,"Please enter a year!");
+								 }
+							
+											
+							 }//end day if
+							 else{
+								 JOptionPane.showMessageDialog(null,"Please enter a day!");
+							 }
+							
 					
-					//writes out the assignments... the method is in the window class
-					Window.printAssignments(course);
+					}//end month if
+					else{
+						JOptionPane.showMessageDialog(null,"Please enter a month!");
+					}
+				
+				
+			}//end title if
+			else{
+				JOptionPane.showMessageDialog(null,"Please enter a title!");
+			}
+				
+			}
+			catch(NumberFormatException ee){
+				JOptionPane.showMessageDialog(null,"Please only enter numbers!");
+			}
 				
 			}
 		});
@@ -119,11 +234,15 @@ public class AddAssignmentWindow extends Window {
 		btnCancel.setBounds(185, 277, 89, 23);
 		contentPane.add(btnCancel);
 		
-		//if an assignment is added but no courses then pops up a window to create a new course
-		if(course.getSize() == 0){
-			CreateCourseWindow z = new CreateCourseWindow();
-			z.show();
-		}
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frame.dispose();
+				
+			}
+		});
+		
+		
 	}
 	
 }

@@ -5,33 +5,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class CountEvents {
+public class CountAssignments{
 	
-	public static ArrayList<Event2[][]> months = new ArrayList<Event2[][]>();
-	public static final int numEvents=50;
+	public static ArrayList<Assignment[][]> months = new ArrayList<Assignment[][]>();
+	public static final int numAssignments=50;
 
-	//int year, int month, int day, String description
-	//public static void main(String[] args){
-	public static void countEm(){
+	//this method is used to count the assignments
+	//it uses an arraylist of [][]arrays of assignments
+	//uses the indexes of the arraylist for months (0-11)
+	//uses the indexes of  the rows for days.. see startArray
+	//uses the indexes of the columns for max assignments
+	public static void countAssignments(){
 		
 	//starts off by clearing the arraylists of arrays of months
 	clearArray();	
 	
 	int count =0;
 	int day1,month;
-	String des;
+	String des,course;
 	
-	PackageCollection counEventsCollection = NewTabbedCalendar.eventCollection;
 	
-	//Time to start counting the events
-	//outer for gets the attributes for the events
-	for(int i=0; i < counEventsCollection.getSize(); i++){
-		Event2 temp = (Event2)counEventsCollection.getElement(i);
+	PackageCollection counAssignmentsCollection = Window.assignments;
+	
+	//public Assignment(String title, int month, int day, int year, String courseTitle) 
+	//Time to start counting the assignments
+	//outer for gets the attributes for the assignments
+	for(int i=0; i < counAssignmentsCollection.getSize(); i++){
+		Assignment temp = (Assignment)counAssignmentsCollection.getElement(i);
 		day1 = temp.getDay()-1;
-		month = temp.getMonth()-1;
-		des=temp.getDescription();
-		
-		//inner for counts the events on that specific day
+		month = temp.getMonthNum();
+		des=temp.getTitle();
+		course=temp.getCourse();
+		//inner for counts the assignments on that specific day
 		//
 		for(int x =0; x < months.get(month).length; x++){
 	
@@ -46,19 +51,19 @@ public class CountEvents {
 						count++;
 					}
 					//Basically making a dublicate of the event in the event class					
-					Event2 p = new Event2(temp.getYear(),temp.getMonth(),temp.getDay(),temp.getDescription());
+					Assignment a = new Assignment(des,month,day1,2016,course);
 					
 					//adds it to the arraylist of arrays of months
-					months.get(month)[x][count] = p;
+					months.get(month)[x][count] = a;
 					//set count to 0
 					count=0;
 					
 				}//end if for months.get(month)
 				//This else is for when the array index IS empty
 				else{
-					Event2 p = new Event2(temp.getYear(),temp.getMonth(),temp.getDay(),temp.getDescription());
+					Assignment a = new Assignment(des,month,day1,2016,course);
 										
-					months.get(month)[x][count] = p; 
+					months.get(month)[x][count] = a; 
 				}//end else
 			}//end if x == day1
 		  
@@ -67,104 +72,92 @@ public class CountEvents {
 	
 	
 	
-//prints the number of events on the days
+//prints the number of assignments on the days
 //Dont need but i liked it for debugging
-	
-/*for(int mon =0; mon < 12; mon++){	
-	//System.out.println(months.get(mon).length+"printing length");
+/*	
+for(int mon =0; mon < 12; mon++){	
+	//.out.println(months.get(mon).length+"printing length");
 	for(int row = 0; row < months.get(mon).length; row++){
-		 for(int col = 0; col < numEvents; col++){
+		 for(int col = 0; col < numAssignments; col++){
 			 //March[row][col] = col;
 			 if(months.get(mon)[row][col] != null){
-			System.out.println(" Month: " + mon + " [" + row +"][" + col + "] "+months.get(mon)[row][col].getDescription() );
+			.out.println(" Month: " + mon + " [" + row +"][" + col + "] "+months.get(mon)[row][col].getTitle() );
 			 }
 		 }
 	 }
 	}
 */
-	//clear the clone of events
-	//temp.clear();
+	
 }//end countem
 	
 	
 	//creates the array of months.. prolly redundant but only way i knew of
+	//prolly could have been done differently
 	public static  void startArray(){
 		Date now = new Date();
 		
 			
 		GregorianCalendar cal = new GregorianCalendar(now.getYear(),0,1);
         int NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-		
         
         //Gets the number of days in each month. Sets that as the length or num of rows 
 		
-		Event2 January[][] = new Event2[NumOfDays][numEvents];
+		Assignment January[][] = new Assignment[NumOfDays][numAssignments];
 		
 		cal = new GregorianCalendar(now.getYear(),1,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-		Event2 February[][] = new Event2[NumOfDays][numEvents];
+		Assignment February[][] = new Assignment[NumOfDays][numAssignments];
 		
 		cal = new GregorianCalendar(now.getYear(),2,1);
         NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         
-        
-		 Event2 March[][] = new Event2 [NumOfDays][numEvents];
+		 Assignment March[][] = new Assignment [NumOfDays][numAssignments];
 		 
 		 cal = new GregorianCalendar(now.getYear(),3,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-         Event2 April[][] = new Event2 [NumOfDays][numEvents];
+         Assignment April[][] = new Assignment [NumOfDays][numAssignments];
          
          cal = new GregorianCalendar(now.getYear(),4,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-         Event2 May[][] = new Event2[NumOfDays][numEvents];
+         Assignment May[][] = new Assignment[NumOfDays][numAssignments];
          
          cal = new GregorianCalendar(now.getYear(),5,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-         Event2 June[][] = new Event2[NumOfDays][numEvents];
+         Assignment June[][] = new Assignment[NumOfDays][numAssignments];
          
          cal = new GregorianCalendar(now.getYear(),6,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-         Event2 July[][] = new Event2[NumOfDays][numEvents];
+         Assignment July[][] = new Assignment[NumOfDays][numAssignments];
 		
          cal = new GregorianCalendar(now.getYear(),7,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-         Event2 August[][] = new Event2[NumOfDays][numEvents];
+         Assignment August[][] = new Assignment[NumOfDays][numAssignments];
          
          cal = new GregorianCalendar(now.getYear(),8,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-         Event2 September[][] = new Event2[NumOfDays][numEvents];
+         Assignment September[][] = new Assignment[NumOfDays][numAssignments];
          
          cal = new GregorianCalendar(now.getYear(),9,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-        
          
-         Event2 October[][] = new Event2[NumOfDays][numEvents];
+         Assignment October[][] = new Assignment[NumOfDays][numAssignments];
          
          cal = new GregorianCalendar(now.getYear(),10,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
          
-         
-         Event2 November[][] = new Event2[NumOfDays][numEvents];
+         Assignment November[][] = new Assignment[NumOfDays][numAssignments];
          
          cal = new GregorianCalendar(now.getYear(),11,1);
          NumOfDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-        
          
-         Event2 December[][] = new Event2[NumOfDays][numEvents];
+         Assignment December[][] = new Assignment[NumOfDays][numAssignments];
 		
          //adds to the arraylist
 		 months.add(January);
@@ -188,7 +181,7 @@ public class CountEvents {
 		
 		for(int mon =0; mon < 12; mon++){	
 			for(int row = 0; row < months.get(mon).length; row++){
-				 for(int col = 0; col < numEvents; col++){
+				 for(int col = 0; col < numAssignments; col++){
 					 if(months.get(mon)[row][col] != null){
 						 months.get(mon)[row][col]=null;
 					 }
@@ -200,13 +193,12 @@ public class CountEvents {
 		
 	
 	
-	//gets the number of events on that day
-	public static int getCountEvents(int month, int day){
+	//gets the number of assignments on that day
+	public static int getCountAssignments(int month, int day){
 		int num=0;
-		
 			
-			for(int col =0; col < numEvents; col++){
-				if(months.get(month)[day][col] != null){
+			for(int col =0; col < numAssignments; col++){
+				if(months.get(month)[day-1][col] != null){
 					num++;
 				}
 			}
@@ -218,4 +210,4 @@ public class CountEvents {
 	
 
 	
-}//end count Events class
+}//end count assignments class
